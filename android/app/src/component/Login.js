@@ -4,7 +4,7 @@ import Zocial from "react-native-vector-icons/Zocial";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-export default function Login() {
+export default function Login(props) {
     const [form, setForm] = useState({
         email: '',
         password: '',
@@ -31,7 +31,7 @@ export default function Login() {
         <View style={styles.header}>
           <Image
           source={require("../images/img1.png")}
-          style={styles.headerImg}
+          style={styles.headerImage}
           alt='Logo'
           />
         </View>
@@ -81,12 +81,9 @@ export default function Login() {
        
 
         <View style={styles.formAction}>
-             <TouchableOpacity onPress={()=>
-                {
-                //handle on press
-                Alert.alert('successfully logged in!');
-                }
-                  }>
+             <TouchableOpacity 
+               onPress={()=>props.navigation.navigate("Dashboard")}
+                  >
 
                  <Text style={styles.footer}>Forgot Password?</Text>
                 <View style={styles.botton1}>
@@ -124,7 +121,7 @@ export default function Login() {
 
 const styles = StyleSheet.create ({
     container: {
-        backgroundColor:"#00004d",
+        backgroundColor:'rgb(102, 153, 255)'
     },
     header: {
           // marginVertical:30,  
@@ -136,7 +133,7 @@ const styles = StyleSheet.create ({
             paddingTop: 100, 
            
     },
-    headerImg:{
+    headerImage:{
         width: 50,
         height: 50,
         alignSelf:"center",
@@ -238,7 +235,7 @@ const styles = StyleSheet.create ({
 
     },
     botton1:{
-       backgroundColor:'#00004d',
+       backgroundColor:'rgb(102, 153, 255)',
        borderRadius:8,
        borderWidth:1,
        borderColor:"blue",

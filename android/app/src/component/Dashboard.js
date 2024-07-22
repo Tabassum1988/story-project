@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 
+
 export default function Dashboard (){
   return (
     <View style={styles.container}>
@@ -125,7 +126,7 @@ botton1Text:{
       fontWeight:"500",
       color:"blue",
       height:50,
-      width:100,
+      width:100,  
      
     },
     botton5:{
