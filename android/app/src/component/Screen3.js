@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import { View, Text ,Style, StyleSheet,Image ,TextInput,TouchableOpacity} from 'react-native';
-
+import Bootom from './Bootom';
 
 const Screen3 = ({navigation}) => {
   const [form, setForm] = useState({
@@ -11,6 +11,14 @@ const Screen3 = ({navigation}) => {
   return (
   <View >
      <View style={styles.container}>
+     <TouchableOpacity
+        onPress={()=>{navigation.navigate('Screen1')}}
+       >
+     <Image
+          source={require("../images/left.png")}
+          style={styles.headerImage4}
+          alt='Logo'
+          /></TouchableOpacity>
         <View style={styles.form}>
         <View style={styles.header}>
           <Image
@@ -116,6 +124,7 @@ export default Screen3;
 
 const styles = StyleSheet.create({
   container:{
+    marginTop: -30, 
     backgroundColor:'rgb(102, 153, 255)',
   },
   header: {
@@ -124,8 +133,8 @@ const styles = StyleSheet.create({
       
       borderBottomLeftRadius: 5,  
       borderBottomRightRadius:5,
-      marginTop: -90,              
-      paddingTop: 90, 
+      marginTop: -100,              
+      paddingTop: 95, 
      
 },
 headerImage:{
@@ -231,6 +240,15 @@ botton1Text:{
   height:20,
   width:50,
   marginTop:-3,
+    },
+    headerImage4:{
+      width: 15,
+      height: 15,
+      alignSelf:"left",
+      marginBottom:30,
+      marginTop:50,
+      marginLeft:15,
+     
     },
   //   inputControl:{
   //     marginHorizontal:7,    

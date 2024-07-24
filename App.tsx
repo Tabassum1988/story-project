@@ -15,6 +15,7 @@ import DrawerNavigator from './android/app/src/component/DrawerNavigator';
  import Personal from './android/app/src/component/Personal';
 // import Linkform from './android/app/src/component/Linkform';
 import Screen3 from './android/app/src/component/Screen3';
+import Screen1 from './android/app/src/component/Screen1';
 import Linkform from './android/app/src/component/Linkform';
 const Stack = createNativeStackNavigator();
 
@@ -22,11 +23,12 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown:false}}>
-        <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen name="Login" component={Login} />
+        {/* <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="Login" component={Login} /> */}
         <Stack.Screen name="Dashboard" component={DrawerNavigator} /> 
         <Stack.Screen name="Personal" component={Personal} /> 
         <Stack.Screen name="Screen3" component={Screen3} />
+        <Stack.Screen name="Screen1" component={Screen1} />
         <Stack.Screen name="Linkform" component={Linkform} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -15,7 +15,7 @@ const DrawerNavigator = () => {
     
   return (
     <Drawer.Navigator>
-    <Drawer.Screen name="Story Hub" options={{headerShown: false}} component={Bootom} />
+    <Drawer.Screen name="Story Hub" options={{headerShown:true}} component={Bootom} />
     <Drawer.Screen name="DrawerFile" component={DrawerFile} />
   </Drawer.Navigator>
   // <Text>hellow</Text>
