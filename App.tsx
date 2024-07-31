@@ -17,19 +17,23 @@ import DrawerNavigator from './android/app/src/component/DrawerNavigator';
 import Screen3 from './android/app/src/component/Screen3';
 import Screen1 from './android/app/src/component/Screen1';
 import Linkform from './android/app/src/component/Linkform';
+import Rating from './android/app/src/component/Rating';
+import Bootom from './android/app/src/component/Bootom';
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown:false}}>
-        {/* <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen name="Login" component={Login} /> */}
-        <Stack.Screen name="Dashboard" component={DrawerNavigator} /> 
-        <Stack.Screen name="Personal" component={Personal} /> 
-        <Stack.Screen name="Screen3" component={Screen3} />
-        <Stack.Screen name="Screen1" component={Screen1} />
-        <Stack.Screen name="Linkform" component={Linkform} />
+         {/* <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="Login" component={Login} />     */}
+           {/* <Stack.Screen name="Dashboard" component={DrawerNavigator}/>   */}
+           <Stack.Screen name="Bootom" component={Bootom} />  
+          <Stack.Screen name="Personal" component={Personal} />   
+          <Stack.Screen name="Screen3" component={Screen3} />
+           <Stack.Screen name="Screen1" component={Screen1} /> 
+         {/* <Stack.Screen name="Linkform" component={Linkform} />   */}
+         <Stack.Screen name="Rating" component={Rating} /> 
       </Stack.Navigator>
     </NavigationContainer>
   );

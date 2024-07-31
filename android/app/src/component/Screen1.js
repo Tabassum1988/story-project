@@ -8,7 +8,7 @@ import { getAnimal } from './api/animal.js';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import 'react-native-gesture-handler';
 
-const Screen1 = () => {
+const Screen1 = ({navigation}) => {
   const [stories, setStories] = useState([]);
   const [kidsstories, setKidsstories] = useState([]);
   const [animalstories, setAnimalstories] = useState([]);
@@ -96,7 +96,7 @@ const Screen1 = () => {
       <View style={[styles.header, { backgroundColor: '#F8F8FF' }]}>
         <Text style={styles.subtitle}>S t <Text style={styles.subtitleo}>o r <Text style={styles.subtitlet}>y H
         <Text style={styles.subtitleh}> u b</Text></Text></Text></Text>
-        <Image source={require('../images1/profile.png')} style={styles.logo} />
+         {/* <Image source={require('../images/user1.png')} style={styles.logo}/>  */}
       </View>
 
       <View style={styles.buttonContainer}>

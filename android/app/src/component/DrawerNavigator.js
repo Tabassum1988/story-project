@@ -8,6 +8,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Dashboard from './Dashboard';
 import Bootom from './Bootom';
 import DrawerFile from './DrawerFile';
+import Screen3 from './Screen3';
 
 const Drawer = createDrawerNavigator();
 
@@ -15,8 +16,8 @@ const DrawerNavigator = () => {
     
   return (
     <Drawer.Navigator>
-    <Drawer.Screen name="Story Hub" options={{headerShown:true}} component={Bootom} />
-    <Drawer.Screen name="DrawerFile" component={DrawerFile} />
+    <Drawer.Screen name="Welcome" options={{headerShown:false}} component={Bootom} />
+    {/* <Drawer.Screen name="Screen3" component={Screen3} /> */}
   </Drawer.Navigator>
   // <Text>hellow</Text>
 

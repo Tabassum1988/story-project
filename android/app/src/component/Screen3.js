@@ -11,18 +11,18 @@ const Screen3 = ({navigation}) => {
   return (
   <View >
      <View style={styles.container}>
-     <TouchableOpacity
+     {/* <TouchableOpacity
         onPress={()=>{navigation.navigate('Screen1')}}
        >
      <Image
           source={require("../images/left.png")}
           style={styles.headerImage4}
           alt='Logo'
-          /></TouchableOpacity>
+          /></TouchableOpacity> */}
         <View style={styles.form}>
         <View style={styles.header}>
           <Image
-          source={require("../images/prf3.png")}
+          source={require("../images/user1.png")}
           style={styles.headerImage}
           alt='Logo'
           />
@@ -34,7 +34,7 @@ const Screen3 = ({navigation}) => {
        
         
         <Image
-          source={require("../images/user2.png")}
+          source={require("../images/user1.png")}
           style={styles.headerImage1}
           alt='Logo'
           />
@@ -60,9 +60,9 @@ const Screen3 = ({navigation}) => {
         </View>                                                                      
 
 
-        <Text style={styles.footer2}></Text>
+        {/* <Text style={styles.footer2}></Text> */}
 
-         <View style={styles.inputboxcointainer}>
+         {/* <View style={styles.inputboxcointainer}>
           
         <Image
           source={require("../images/sound.png")}
@@ -87,12 +87,12 @@ const Screen3 = ({navigation}) => {
           style={styles.headerImage3}
           alt='Logo'
           /></TouchableOpacity>
-        </View>
+        </View> */}
 
         <Text style={styles.footer2}></Text>
 
         <TouchableOpacity
-        onPress={()=>{navigation.navigate('Login')}}
+        onPress={()=>{navigation.navigate('Rating')}}
        >
             
         <View style={styles.botton1}>
@@ -125,7 +125,7 @@ export default Screen3;
 const styles = StyleSheet.create({
   container:{
     marginTop: -30, 
-    backgroundColor:'rgb(102, 153, 255)',
+    backgroundColor:'#d4e10e',
   },
   header: {
     // marginVertical:30,  
@@ -173,14 +173,15 @@ headerImage3:{
 },
 form:{
  
-   marginBottom:10,
+   marginBottom:-10,
    backgroundColor:"white",
    padding:8,
   borderTopLeftRadius:50,
   borderTopRightRadius:50,
-   marginTop: 70,              
+   marginTop: 100,              
    paddingTop: 100, 
-marginBottom:0,
+   marginBottom:0,
+   
   
 },
 
@@ -219,7 +220,7 @@ footer2:{
   
 },
 botton1:{
-  backgroundColor:'rgb(102, 153, 255)',
+  backgroundColor:'#d4e10e',
   borderRadius:8,
   borderWidth:1,
   borderColor:"blue",
@@ -232,6 +233,7 @@ botton1:{
  height:25,
  width:200,
 marginLeft:30,
+marginBottom:200,
 },
 botton1Text:{
   fontSize:15,
@@ -250,7 +252,5 @@ botton1Text:{
       marginLeft:15,
      
     },
-  //   inputControl:{
-  //     marginHorizontal:7,    
-  // },
+ 
 })
