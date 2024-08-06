@@ -104,7 +104,7 @@ const Signup = ({ navigation}) => {
             setModalVisible(true);
             setTimeout(() => {
               setModalVisible(false);
-            }, 2000);
+            }, 10000);
           }
         })
         .catch(e => {

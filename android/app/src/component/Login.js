@@ -200,7 +200,7 @@ export default function Login({ navigation }) {
             style={styles.modalImage}
           />
           <Text style={styles.modeltitle}>Error</Text>
-          <Text style={styles.modeltitle1}>Invalid Username or Password</Text>
+          <Text style={styles.modeltitle1}>Invalid Email or Password</Text>
           <View style={styles.modelbutton}>
           <Text style={styles.modelbuttontext}>Try again</Text>
           </View>
@@ -593,9 +593,9 @@ const styles = StyleSheet.create ({
     elevation: 5,
     width: '70%',
     borderColor:"blue",
-    height:'60%',
+    height:'50%',
   },
-  
+
   modelbuttontext:{
     color:"white",
     fontSize:18,
