@@ -1,11 +1,19 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Modal, Image } from 'react-native';
-import Video from 'react-native-video';
-import { getStories } from './api/allapi.js';
-import { getKids } from './api/kids.js';
+import YouTubeIframe from 'react-native-youtube-iframe'; 
 import { getAnimal } from './api/animal.js';
+import { getKids } from './api/kids.js';
+import { getStories } from './api/allapi.js';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+const extractVideoId = (url) => {
+  if (!url) return null;
+  const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:embed\/|v\/|watch\?v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+};
 
 const Dash = () => {
   const [stories, setStories] = useState([]);
@@ -13,7 +21,8 @@ const Dash = () => {
   const [animalstories, setAnimalstories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [shareModalVisible, setShareModalVisible] = useState(false);
+  const [selectedVideoId, setSelectedVideoId] = useState(null);
   const [selectedVideoTitle, setSelectedVideoTitle] = useState('');
   const [selectedSection, setSelectedSection] = useState('all');
 
@@ -51,31 +60,29 @@ const Dash = () => {
       });
   }, []);
 
-  const handleStoryPress = (item) => {
-    setSelectedVideo(item.link);
-    setSelectedVideoTitle(item.title);
-    setModalVisible(true);
+  const handleImagePress = (item) => {
+    const videoId = extractVideoId(item.link);
+    if (videoId) {
+      setSelectedVideoId(videoId);
+      setSelectedVideoTitle(item.title);
+      setModalVisible(true);
+    } else {
+      console.error('Invalid video URL:', item.link);
+    }
   };
 
-  const renderStoryItem = ({ item }) => (
-    <TouchableOpacity style={styles.storyItemContainer} onPress={() => handleStoryPress(item)}>
-      <View style={styles.storyItem}>
-        <Image source={item.image} style={styles.image} />
-        <View style={styles.titleContainer}>
-          {Array(4).fill().map((_, i) => (
-            <Icon key={i} name="star" size={14} color="orange" style={styles.starIcon} />
-          ))}
-          <Text style={styles.title}>{item.title}</Text>
-          <Icon name="share-alt" size={14} color="black" style={styles.shareIcon} />
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
+  const handleSharePress = () => {
+    setShareModalVisible(true);
+  };
 
   const closeModal = () => {
-    setSelectedVideo(null);
+    setSelectedVideoId(null);
     setSelectedVideoTitle('');
     setModalVisible(false);
+  };
+
+  const closeShareModal = () => {
+    setShareModalVisible(false);
   };
 
   const getDataForSection = () => {
@@ -90,12 +97,39 @@ const Dash = () => {
     }
   };
 
+
+
+  const renderStoryItem = ({ item }) => (
+    <TouchableOpacity style={styles.storyItemContainer} onPress={() => handleImagePress(item)}>
+      <View style={styles.storyItem}>
+        {/* <TouchableOpacity onPress={() => handleImagePress(item)}> */}
+            <Image source={item.image} style={styles.image} />
+
+        {/* </TouchableOpacity> */}
+        <View style={styles.titleContainer}>
+          {Array(4).fill().map((_, i) => (
+            <Icon key={i} name="star" size={14} color="orange" style={styles.starIcon} />
+          ))}
+          <Text style={styles.title}>{item.title}</Text>
+          <TouchableOpacity onPress={handleSharePress}>
+            <Icon name="share-alt" size={14} color="black" style={styles.shareIcon} />
+          </TouchableOpacity>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
+  
+
+
+  
+
   return (
     <View style={styles.screenContainer}>
       <View style={[styles.header, { backgroundColor: '#F8F8FF' }]}>
         <Text style={styles.subtitle}>S t <Text style={styles.subtitleo}>o r <Text style={styles.subtitlet}>y H
         <Text style={styles.subtitleh}> u b</Text></Text></Text></Text>
-        <Image source={require('../images/profile1.png')} style={styles.logo} />
+        <Image source={require('../images/user1.png')} style={styles.logo} />
       </View>
 
       <View style={styles.buttonContainer}>
@@ -111,7 +145,7 @@ const Dash = () => {
           <Icon name="paw" size={14} color="white" />
           <Text style={styles.sectionButtonText}>Animal</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.sectionButtontt} onPress={() => setSelectedSection('animal')}>
+        <TouchableOpacity style={styles.sectionButtontt}>
           <Icon name="star" size={14} color="white" />
           <Text style={styles.sectionButtonText}>Top Rated</Text>
         </TouchableOpacity>
@@ -124,7 +158,7 @@ const Dash = () => {
         contentContainerStyle={styles.section}
       />
 
-<Modal
+      <Modal
         visible={modalVisible}
         animationType="slide"
         onRequestClose={closeModal}
@@ -132,18 +166,37 @@ const Dash = () => {
         <View style={styles.modalContainer}>
           <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
             <Icon name="close" size={30} color="black" style={styles.closeButtonText} />
-            {/* <Text style={styles.closeButtonText}>Close</Text> */}
-
           </TouchableOpacity>
           <View style={styles.videoContainer}>
-            {selectedVideo && (
-              <Video
-                source={{ uri: selectedVideo }}
-                style={styles.video}
-                controls={true}
-                resizeMode="contain"
+            {selectedVideoId && (
+              <YouTubeIframe
+                videoId={selectedVideoId}
+                height={300}
+                play={true}
               />
             )}
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        visible={shareModalVisible}
+        animationType="slide"
+        onRequestClose={closeShareModal}
+      >
+        <View style={styles.shareModalContainer}>
+          <TouchableOpacity style={styles.closeButton} onPress={closeShareModal}>
+            <Icon name="close" size={30} color="black" style={styles.closeButtonText} />
+          </TouchableOpacity>
+          <View style={styles.shareOptionsContainer}>
+            <TouchableOpacity style={styles.shareOption} onPress={() => console.log('Share to Instagram')}>
+              <Icon name="instagram" size={30} color="black" />
+              <Text style={styles.shareOptionText}>Instagram</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.shareOption} onPress={() => console.log('Share to WhatsApp')}>
+              <Icon name="whatsapp" size={30} color="black" />
+              <Text style={styles.shareOptionText}>WhatsApp</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -205,14 +258,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   logo: {
-    width: 50,
-    height: 50,
+    marginTop:8,
+    width: 30,
+    height: 30,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '90%',
+    width: '80%',
     marginTop: 10,
+    marginBottom:5,
+    alignContent:'space-around',
+  
   },
   sectionButton: {
     padding: 6,
@@ -227,6 +284,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     flexDirection: 'row',
     alignItems: 'center',
+    marginHorizontal:3,
   },
   sectionButtont: {
     padding: 6,
@@ -234,6 +292,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     flexDirection: 'row',
     alignItems: 'center',
+    marginHorizontal:3,
   },
   sectionButtontt: {
     padding: 6,
@@ -263,7 +322,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
     borderRadius: 8,
-    width: '95%',  
+    width: '95%',
   },
   titleContainer: {
     flexDirection: 'row',
@@ -278,8 +337,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     flex: 1,
-    color: '#000000', 
-    fontWeight: 'bold', 
+    color: '#000000',
+    fontWeight: 'bold',
   },
   shareIcon: {
     marginRight: 15,
@@ -290,37 +349,43 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 8,
   },
- 
-  closeButtonText: {
-    color: '#FFF',
-    // color:'black',
-    fontSize: 18,
-    padding:10,
-    backgroundColor:'black',
-    borderRadius:5
-  },
-
-
   modalContainer: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   closeButton: {
     position: 'absolute',
     top: 20,
     right: 20,
-    zIndex: 999,
-    // backgroundColor:'#4d0000',
+    color:'white'
+  },
+  closeButtonText: {
+    fontSize: 30,
+    color:'white',
     backgroundColor:'black'
   },
   videoContainer: {
+    width: '100%',
+    height: 300,
+  },
+  shareModalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  video: {
-    width: '100%',
-    height: '100%',
+  shareOptionsContainer: {
+    width: '80%',
+    alignItems: 'center',
+  },
+  shareOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  shareOptionText: {
+    marginLeft: 10,
+    fontSize: 18,
   },
 });
 

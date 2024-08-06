@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert , ScrollView,Modal} from 'react-native';
 import Zocial from "react-native-vector-icons/Zocial";
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -16,7 +16,9 @@ export default function Login({ navigation }) {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [passwordVisible, setPasswordVisible] = useState(false);
-
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalSubtitle, setModalSubtitle] = useState('');
 
 
   function handleEmail(text) {
@@ -28,6 +30,7 @@ export default function Login({ navigation }) {
     setPassword(text);
     validatePassword(text);
   }
+  
 
 
   function validateEmail(text) {
@@ -55,21 +58,20 @@ export default function Login({ navigation }) {
       });
     }
   }
+ 
+
+ 
 
 
   function handleSubmit() {
+   
     validateEmail(email);
     validatePassword(password);
-
-    // if (Object.keys(errors).length === 0) {
-    //   const userData = {
-    //     email,
-    //     password,
-    //   };
+    
       if (!email || !password) {
-          // Alert.alert('Error', 'Please fill in both email and password fields.');
-          return;
-      }
+         
+        return; 
+       }
       
       const userData = { email, password };
 
@@ -82,6 +84,13 @@ export default function Login({ navigation }) {
                   setPassword('');
               } else {
                   // Alert.alert('Incorrect email or password.');
+                  setModalVisible(true);
+                  setTimeout(() => {
+                    setModalVisible(false);
+                    navigation.navigate("Login");
+                  }, 2000);
+                  setEmail('');
+                  setPassword('');
               }
           })
           .catch(e=>console.log(e));
@@ -95,7 +104,7 @@ export default function Login({ navigation }) {
     
         <View style={styles.header}>
           <Image
-          source={require("../images/img1.png")}
+          source={require("../images/storyhub1.png")}
           style={styles.headerImage}
           alt='Logo'
           />
@@ -154,7 +163,7 @@ export default function Login({ navigation }) {
 
 
                   <View style={styles.formAction}>
-                 <Text style={styles.footer}>Forgot Password?</Text>
+                 <Text style={styles.footer} onPress={() => navigation.navigate('Signup')}>Forgot Password?</Text>
                    <TouchableOpacity onPress={handleSubmit}>
                 <View style={styles.botton1}>
                    <Text style={styles.botton1Text}>Login</Text>
@@ -175,9 +184,40 @@ export default function Login({ navigation }) {
                  //handle on press
               }}></TouchableOpacity> 
           </View>
+
+          <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        setModalVisible(false);
+      }}
+    >
+      <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+          <Image
+            source={require('../images/cross.png')} // Update this path to your image
+            style={styles.modalImage}
+          />
+          <Text style={styles.modeltitle}>Error</Text>
+          <Text style={styles.modeltitle1}>Invalid Username or Password</Text>
+          <View style={styles.modelbutton}>
+          <Text style={styles.modelbuttontext}>Try again</Text>
+          </View>
+          
+          <Text style={styles.modeltitle2}>OR</Text>
+          <Text style={styles.modeltitle3}>Signup Now</Text>
+        </View>
+      </View>
+    </Modal>
+
+
+
           </View>
     </View>
    
+  
+
   
 
 
@@ -189,39 +229,39 @@ const styles = StyleSheet.create ({
         backgroundColor:'#d4e10e'
     },
     header: {
-          // marginVertical:30,  
-          // marginTop:10,  
-            //
+         
             borderBottomLeftRadius: 5,  
             borderBottomRightRadius:5,
-            marginTop: -90,              
+            marginTop: -80,              
             paddingTop: 100, 
            
     },
     headerImage:{
-        width: 60,
-        height: 60,
+        width: 100,
+        height: 120,
         alignSelf:"center",
-        marginBottom:30,
-        marginTop:15,
+        marginBottom:7,
+        marginTop:7,
     },
     title: {
         fontSize: 30,
         fontWeight:"700",
         color:"black",
         textAlign:"center",
+        
+       
     },
     inputContainer: {
+      
       flexDirection: 'row',
       alignItems: 'center',
       borderWidth: 1,
       borderColor: 'gray',
       borderRadius: 8,
-      marginVertical: 2,
-      paddingHorizontal:5,
-      height:35,
-      width:250,
-      marginLeft:10,
+      marginVertical: 10,
+      paddingHorizontal:10,
+      marginTop:-2,
+    
     },
     inputContainer1:{
       flexDirection: 'row',
@@ -229,16 +269,15 @@ const styles = StyleSheet.create ({
       borderWidth: 1,
       borderColor: 'gray',
       borderRadius: 8,
-      marginVertical: 2,
-      paddingHorizontal:5,
+      marginVertical: 10,
+      paddingHorizontal:10,
+      margin:5,
     },
    
     inputboxcointainer:{
       alignItems:"center",
       flexDirection:"row",
       height:48,
-      // paddingVertical:20,
-      // paddingHorizontal:20,
       fontWeight:'350',
       borderRadius:12,
       fontSize:10,
@@ -254,8 +293,6 @@ const styles = StyleSheet.create ({
       alignItems:"center",
       flexDirection:"row",
       height:48,
-      // paddingVertical:10,
-      // paddingHorizontal:20,
       fontWeight:'350',
       borderRadius:12,
       fontSize:10,
@@ -269,10 +306,14 @@ const styles = StyleSheet.create ({
       fontSize:15,
       fontWeight:"500",
       color:"black",
-      // marginBottom:7,
       textAlign:"left",
-      // marginTop:10,
+      marginTop:-60,
     padding:10,
+    marginLeft:1,
+    fontSize: 18,
+      fontWeight: 'bold',
+       textAlign: 'left',
+      color: 'black',
     },
     inputControl:{
         marginHorizontal:7,    
@@ -289,38 +330,39 @@ const styles = StyleSheet.create ({
       borderColor: '#696969',
       padding: 5,
       margin: 5,  
-      // 
+      
     
       
   },
     form:{
-      // marginBottom:40,
+      marginBottom:-90,
        backgroundColor:"#ffffff",
        padding:8,
       borderTopLeftRadius:50,
       borderTopRightRadius:50,
       border:1,
      
-       marginTop: -17,              
-      //  paddingTop: 100, 
+       marginTop: -1,              
+       paddingTop: 80, 
+      height:1000,
       
     },
     formAction:{
         marginVertical:5,
     },
     footer:{
-        fontSize:10,
-        fontWeight:"800",
-        color:"#00004d",
+      color:"#00004d",
         textAlign:"left",
-        letterSpacing:0.5,
-        // marginTop:1,
+         marginTop:-15,
         marginBottom:3,
-       
-        padding:8,
-       
-
+       marginRight:180,
+         padding:8,
+        fontSize:14,
+      fontWeight:"500",
+      textAlign:"center",
+      color:'black',
     },
+
     botton1:{
        backgroundColor:'#d4e10e',
        borderRadius:8,
@@ -332,8 +374,9 @@ const styles = StyleSheet.create ({
        paddingHorizontal:5,
        flexDirection:'row',
        marginBottom:10,
-      
+      margin:8,
     },
+
     botton1Text:{
   fontSize:15,
   fontWeight:"500",
@@ -342,33 +385,38 @@ const styles = StyleSheet.create ({
   width:50,
   marginLeft:15,
     },
+
     footer1:{
-      fontSize:10,
+      fontSize:14,
       fontWeight:"500",
       textAlign:"center",
       marginTop:5,
     },
+
     footer1text:{
-      fontSize:10,
+      fontSize:14,
       fontWeight:"800",
       color:"#00004d",
       height:20,
-     
+     marginBottom:-900,
     },
+
     footer2:{
       height: 1, 
       backgroundColor: '#f2f2f2',
       flexDirection: 'row', 
       alignItems: 'center',
       marginTop:10,
-      
+      marginBottom:-900,
     },
+
     footer3:{
       fontSize:10,
       fontWeight:"350",
       textAlign:"center",
       marginTop:3,
     },
+
     botton2:{
       backgroundColor:'white',
       borderRadius:8,
@@ -380,9 +428,8 @@ const styles = StyleSheet.create ({
       paddingHorizontal:4,
       flexDirection:'row',
       marginTop:3,
-    
-     
     },
+
     botton2Text:{
       fontSize:10,
       fontWeight:"800",
@@ -390,10 +437,9 @@ const styles = StyleSheet.create ({
       height:30,
       width:100,
       paddingVertical:8,
-      // paddingHorizontal:5,
       marginHorizontal:5,
-      
     },
+
     eye:{
    marginLeft:-80,
     },
@@ -404,6 +450,7 @@ const styles = StyleSheet.create ({
       marginTop: 8,
     height:-60,
     },
+
     button1: {
       backgroundColor: '#FFFFFF',
       borderRadius: 4,
@@ -417,24 +464,28 @@ const styles = StyleSheet.create ({
       justifyContent: 'center',
       height:40
     },
+
     container1: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
       width: '100%',
     },
+
     googleLogo: {
       width: 20,
       height: 25,
       textAlign: 'center',
       margin:3,
     },
+
     text1: {
       fontSize: 16,
       color: '#4285F4',
       marginLeft: 4,
       textAlign: 'center',
     },
+
     headerImage4:{
       width: 15,
       height: 15,
@@ -444,17 +495,113 @@ const styles = StyleSheet.create ({
     },
    
    input1:{
-    paddingVertical:3,
-    fontSize:12,
-    marginRight:85,
+     paddingVertical:3,
+      flex: 1,
+      height: 37,
+      fontSize: 15,
    },
+
    input2:{
-    paddingVertical:3,
-    fontSize:12,
-    marginRight:40,
+     paddingVertical:10,
+      flex: 1,
+      height: 37,
+      fontSize: 15,
    },
+
    text:{
     marginBottom:100,
    },
+
+   error: {
+    color: 'red',
+    fontSize: 14,
+    marginBottom: 12,
+  },
+
+  modeltitle:{
+    fontSize: 20,
+    fontWeight: "bold",
+    marginVertical: 10,
+    color:"red",
+  },
+
+  modeltitle1:{
+    fontSize: 13,
+    fontWeight: "800",
+    marginVertical: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    color:"black",
+  },
+
+  modelbutton:{
+    backgroundColor: 'red',
+    borderRadius: 8,
+    paddingVertical: 7,
+    paddingHorizontal: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'red',
+    width: '70%',
+    justifyContent: 'center',
+    height:41,
+    marginTop:15,
+  },
+
+  modeltitle2:{
+    fontSize: 17,
+      fontWeight: "bold",
+      marginVertical: 10,
+      color:"red",
+      marginTop:13,
+  },
+
+  modeltitle3:{
+    fontSize: 17,
+    fontWeight: "bold",
+    marginVertical: 10,
+    color:"blue",
+   textDecorationLine:"underline",
+   marginTop:-2,
+  },
+
+  modalImage:{
+    width: 70,
+    height: 70,
+    alignSelf: "center",
+    marginTop: -20,
+    marginLeft: 10,
+  },
+  
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+
+  modalContent: {
+    backgroundColor: "white",
+    borderRadius: 30,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    width: '70%',
+    borderColor:"blue",
+    height:'60%',
+  },
+  
+  modelbuttontext:{
+    color:"white",
+    fontSize:18,
+    fontWeight:"bold",
+    size:12,
+  },
+
 });
 
